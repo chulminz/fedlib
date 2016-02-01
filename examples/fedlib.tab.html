@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, target-densitydpi=medium-dpi">
+	<title>fedlib.tab.js</title>
+	<link rel="stylesheet" href="../css/normalize.css">
+	<style>
+		.tab-menu {
+
+		}
+		.tab-menu .item {
+			
+		}
+		.tab-menu .item:hover {
+			cursor: pointer;
+		}
+		.tab-menu .item.active {
+			font-weight: bold;
+		}
+		.tab-content {
+			display: none;
+		}
+		.tab-content.active {
+			display: block;
+		}
+	</style>
+</head>
+<body>
+
+<h1>Tab</h1>
+
+<div>
+	<div class="tab-menu ex1">
+		<a class="active item" data-tab="first">First</a>
+		<a class="item" data-tab="second">Second</a>
+		<a class="item" data-tab="third">Third</a>
+	</div>
+	<div class="tab-content active" data-tab="first">
+		First
+	</div>
+	<div class="tab-content" data-tab="second">
+		Second
+	</div>
+	<div class="tab-content" data-tab="third">
+		Third
+	</div>
+</div>
+
+
+<div>
+	<div class="tab-menu ex2">
+		<a class="active item" data-tab="sfirst">sFirst</a>
+		<a class="item" data-tab="ssecond">sSecond</a>
+		<a class="item" data-tab="sthird">sThird</a>
+	</div>
+	<div class="tab-content active" data-tab="sfirst">
+		sFirst
+	</div>
+	<div class="tab-content" data-tab="ssecond">
+		sSecond
+	</div>
+	<div class="tab-content" data-tab="sthird">
+		sThird
+	</div>
+</div>
+
+
+<script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+<script src="../dist/js/fedlib.tab.js"></script>
+<script>
+	$('.tab-menu.ex1 .item').tab();
+	$('.tab-menu.ex2 .item').tab();
+</script>
+
+</body>
+</html>
