@@ -14,8 +14,7 @@
 "use strict";
 
 $.fn.tab = function(parameters) {
-	
-	var $allModules = $(this);
+	var $allModules = $.isFunction(this) ? $(window) : $(this);
 	var moduleSelector = $allModules.selector || '';
 
 	var query = arguments[0];
@@ -47,6 +46,10 @@ $.fn.tab = function(parameters) {
 
 		module = {
 			initialize: function() {
+				if ($module.index() == 0 && !module.has.siblingActive($module)) {
+					$module.addClass(className.active);
+					module.get.tabElement($module.data(dataName.tab)).addClass(className.active);
+				}
 				module.bind.events();
 				module.instantiate();
 			},
@@ -62,34 +65,64 @@ $.fn.tab = function(parameters) {
 
 			bind: {
 				events: function() {
-					$module.on('click' + eventNamespace, module.event.click);
+					if (!$.isWindow(element)) {
+						$module.on('click' + eventNamespace, module.event.click);
+					}
 				}
 			},
 
 			event: {
 				click: function(event) {
-					module.changeTab();
+					module.changeTab($module.data(dataName.tab));
+					return false;
 				}
 			},
 
-			changeTab: function() {
-				module.activate.all();
+			changeTab: function(tabPath) {
+				var insideDefaultPath = module.get.defaultPath(tabPath);
+
+				module.activate.all(tabPath);
+
+				if (insideDefaultPath !== undefined) {
+					module.changeTab(insideDefaultPath);
+				}
+			},
+
+			has: {
+				siblingActive: function(obj) {
+					return obj.siblings().hasClass(className.active);
+				}
+			},
+
+			get: {
+				defaultPath: function(tabPath) {
+					var $defaultNav = $allModules.filter('[data-'+dataName.tab+'^="'+tabPath+'/"]').eq(0);
+					
+					return $defaultNav.data(dataName.tab);
+				},
+				tabElement: function(tabPath) {
+					return $(selector.tabs).filter('[data-'+dataName.tab+'="'+tabPath+'"]');
+				},
+				navElement: function(tabPath) {
+					return $allModules.filter('[data-'+dataName.tab+'="'+tabPath+'"]');
+				}
 			},
 
 			activate: {
-				all: function() {
-					module.activate.tab();
-					module.activate.nav();
+				all: function(tabPath) {
+					module.activate.tab(tabPath);
+					module.activate.nav(tabPath);
 				},
-				tab: function() {
-					var $tab = $(selector.tabs).filter('[data-'+dataName.tab+'='+$module.data(dataName.tab)+']');
+				tab: function(tabPath) {
+					var $tab = module.get.tabElement(tabPath);
 					var isActive = $tab.hasClass(className.active);
 					if (!isActive) {
 						$tab.addClass(className.active).siblings().removeClass(className.active);
+						settings.onActive.call($tab[0], tabPath);
 					}
 				},
-				nav: function() {
-					var $nav = $module;
+				nav: function(tabPath) {
+					var $nav = module.get.navElement(tabPath);
 					var isActive = $nav.hasClass(className.active);
 					if (!isActive) {
 						$nav.addClass(className.active).siblings().removeClass(className.active);
@@ -161,9 +194,15 @@ $.fn.tab = function(parameters) {
 	return (returnedValue !== undefined) ? returnedValue : this;
 };
 
+$.tab = function() {
+	$(window).tab.apply(this, arguments);
+};
+
 $.fn.tab.settings = {
 	name: 'Tab',
 	namespace: 'tab',
+
+	onActive: function(tabPath) {},	// called on tab active
 
 	selector: {
 		tabs: '.tab-content'
