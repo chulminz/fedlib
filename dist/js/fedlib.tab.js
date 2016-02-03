@@ -47,8 +47,7 @@ $.fn.tab = function(parameters) {
 		module = {
 			initialize: function() {
 				if ($module.index() == 0 && !module.has.siblingActive($module)) {
-					$module.addClass(className.active);
-					module.get.tabElement($module.data(dataName.tab)).addClass(className.active);
+					module.activate.all($module.data(dataName.tab));
 				}
 				module.bind.events();
 				module.instantiate();
@@ -83,7 +82,7 @@ $.fn.tab = function(parameters) {
 
 				module.activate.all(tabPath);
 
-				if (insideDefaultPath !== undefined) {
+				if (insideDefaultPath) {
 					module.changeTab(insideDefaultPath);
 				}
 			},
