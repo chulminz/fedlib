@@ -36,6 +36,7 @@ $.fn.tab = function(parameters) {
 		var selector = settings.selector;
 		var className = settings.className;
 		var dataName = settings.dataName;
+		var ajaxSettings = settings.ajaxSettings;
 
 		var $module = $(this);
 		var $context;
@@ -123,10 +124,46 @@ $.fn.tab = function(parameters) {
 				}
 			},
 
+			ajax: {
+				content: function(tabPath) {
+					var url = ajaxSettings.urlTemplate;
+					var keys = url.match(/\{\$*[A-z0-9]+\}/g);
+					var targetTab = module.get.tabElement(tabPath);
+
+					if (!targetTab.data('isLoaded') || ajaxSettings.refresh) {
+						$.each(keys, function(index, key) {
+							 url = url.replace(key, $module.data(key.substr(1, key.length - 2)));
+						});
+
+						targetTab.addClass(className.loading);
+						$.ajax({
+							url: url,
+							cache: ajaxSettings.cache,
+							success: function(data) {
+								targetTab.data('isLoaded', true)
+										 .removeClass(className.loading)
+										 .html(data);
+								settings.onAjaxSuccess.call(this, tabPath);
+							},
+							error: function() {
+								settings.onAjaxError.call(this, tabPath);
+							},
+							complete: function() {
+								settings.onAjaxComplete.call(this, tabPath);
+							}
+						});
+					}
+				}
+			},
+
 			activate: {
 				all: function(tabPath) {
 					module.activate.tab(tabPath);
 					module.activate.nav(tabPath);
+
+					if (ajaxSettings.active) {
+						module.ajax.content(tabPath);
+					}
 				},
 				tab: function(tabPath) {
 					var $tab = module.get.tabElement(tabPath);
@@ -220,13 +257,24 @@ $.fn.tab.settings = {
 	context: false,	
 
 	onActive: function(tabPath) {},	// called on tab active
+	onAjaxSuccess: function(tabPath) {},
+	onAjaxError: function(tabPath) {},
+	onAjaxComplete: function(tabPath) {},
+
+	ajaxSettings: {
+		active: false,
+		urlTemplate: '{url}',
+		cache: true,
+		refresh: false
+	},
 
 	selector: {
 		navsWrap: '.tab-menu',
 		tabs: '.tab-content'
 	},
 	className: {
-		active: 'active'
+		active: 'active',
+		loading: 'loading'
 	},
 	dataName: {
 		tab: 'tab'

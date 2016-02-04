@@ -5,10 +5,13 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, target-densitydpi=medium-dpi">
 	<title>fedlib.tab.js</title>
-	<link rel="stylesheet" href="../css/normalize.css">
+	<link rel="stylesheet" href="../lib/normalize.css/normalize.css">
 	<style>
+		body {
+			margin: 30px;
+		}
 		.tab-menu {
-
+			margin-bottom: 15px;
 		}
 		.tab-menu .item {
 			
@@ -21,6 +24,7 @@
 		}
 		.tab-content {
 			display: none;
+			min-height: 100px;
 			border: 1px solid #ccc;
 			padding: 15px;
 		}
@@ -33,7 +37,8 @@
 
 <h1>Tab</h1>
 
-<div class="ex-tab-b">
+<h2>Basic tab</h2>
+<div class="ex-tab-a">
 	<div class="tab-menu">
 		<a href="#" class="item" data-tab="first">First</a>
 		<a href="#" class="item" data-tab="second">Second</a>
@@ -44,7 +49,8 @@
 	<div class="tab-content" data-tab="third">third</div>
 </div>
 
-<div class="ex-tab-c">
+<h2>Multiple tab</h2>
+<div class="ex-tab-b">
 	<div class="tab-menu">
 		<a href="#" class="item" data-tab="first">First</a>
 		<a href="#" class="item" data-tab="second">Second</a>
@@ -82,14 +88,33 @@
 	</div>
 </div>
 
-<script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+<h2>Ajax tab</h2>
+<div class="ex-tab-c">
+	<div class="tab-menu">
+		<a href="#" class="item" data-tab="first" data-num="1" data-param="a">First</a>
+		<a href="#" class="item" data-tab="second" data-num="2" data-param="b">Second</a>
+		<a href="#" class="item" data-tab="third" data-num="3" data-param="c">Third</a>
+	</div>
+	<div class="tab-content" data-tab="first"></div>
+	<div class="tab-content" data-tab="second"></div>
+	<div class="tab-content" data-tab="third"></div>
+</div>
+
+<script src="../lib/jQuery/jquery-1.11.3.min.js"></script>
 <script src="../dist/js/fedlib.tab.js"></script>
 <script>
+	$('.ex-tab-a .tab-menu .item').tab({
+		context: '.ex-tab-a'
+	});
 	$('.ex-tab-b .tab-menu .item').tab({
 		context: '.ex-tab-b'
 	});
 	$('.ex-tab-c .tab-menu .item').tab({
-		context: '.ex-tab-c'
+		context: '.ex-tab-c',
+		ajaxSettings: {
+			active: true,
+			urlTemplate: './ajax/tab-{num}.html?id={param}'
+		}
 	});
 </script>
 
