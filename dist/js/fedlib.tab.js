@@ -76,7 +76,7 @@ $.fn.tab = function(parameters) {
 			},
 
 			destroy: function() {
-
+				$module.removeData(moduleNamespace).off(eventNamespace);
 			},
 
 			bind: {
@@ -139,10 +139,10 @@ $.fn.tab = function(parameters) {
 						$.ajax({
 							url: url,
 							cache: ajaxSettings.cache,
-							success: function(data) {
+							success: function(response) {
 								targetTab.data('isLoaded', true)
 										 .removeClass(className.loading)
-										 .html(data);
+										 .html(response);
 								settings.onAjaxSuccess.call(this, tabPath);
 							},
 							error: function() {
