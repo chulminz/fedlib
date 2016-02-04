@@ -38,6 +38,8 @@ $.fn.tab = function(parameters) {
 		var dataName = settings.dataName;
 
 		var $module = $(this);
+		var $context;
+		var $tabs;
 
 		var instance = $module.data(moduleNamespace);
 
@@ -46,6 +48,20 @@ $.fn.tab = function(parameters) {
 
 		module = {
 			initialize: function() {
+				if (settings.context == 'parent') {
+					if ($module.closest(selector.navsWrap).length > 0) {
+						$context = $module.closest(selector.navsWrap).parent();
+					} else {
+						$context = $module.parent();
+					}
+				} else if (settings.context) {
+					$context = $(settings.context);
+				} else {
+					$context = $('body');
+				}
+
+				$tabs = $context.find(selector.tabs);
+
 				if ($module.index() == 0 && !module.has.siblingActive($module)) {
 					module.activate.all($module.data(dataName.tab));
 				}
@@ -100,7 +116,7 @@ $.fn.tab = function(parameters) {
 					return $defaultNav.data(dataName.tab);
 				},
 				tabElement: function(tabPath) {
-					return $(selector.tabs).filter('[data-'+dataName.tab+'="'+tabPath+'"]');
+					return $tabs.filter('[data-'+dataName.tab+'="'+tabPath+'"]');
 				},
 				navElement: function(tabPath) {
 					return $allModules.filter('[data-'+dataName.tab+'="'+tabPath+'"]');
@@ -201,9 +217,12 @@ $.fn.tab.settings = {
 	name: 'Tab',
 	namespace: 'tab',
 
+	context: false,	
+
 	onActive: function(tabPath) {},	// called on tab active
 
 	selector: {
+		navsWrap: '.tab-menu',
 		tabs: '.tab-content'
 	},
 	className: {
