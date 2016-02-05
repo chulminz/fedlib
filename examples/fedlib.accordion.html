@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, target-densitydpi=medium-dpi">
+	<title>fedlib.accordion.js</title>
+	<link rel="stylesheet" href="../lib/normalize.css/normalize.css">
+	<style>
+		body {
+			margin: 30px;
+		}
+		.accordion {
+
+		}
+		.accordion .title {
+		}
+		.accordion .content {
+			display: none;
+		}
+		.accordion .title.active {
+			font-weight: bold;
+		}
+		.accordion .content.active {
+			display: block;
+		}
+	</style>
+</head>
+<body>
+
+<h1>Accordion</h1>
+
+<h2>Basic Accordion</h2>
+<div class="accordion a">
+	<div class="title">
+		<a href="#">Level 1</a>
+	</div>
+	<div class="content">
+		Leven 1 Contents
+	</div>
+	<div class="title">
+		<a href="#">Level 2</a>
+	</div>
+	<div class="content">
+		Leven 2 Contents
+	</div>
+	<div class="title">
+		<a href="#">Level 3</a>
+	</div>
+	<div class="content">
+		Leven 3 Contents
+	</div>
+</div>
+
+<h2>Open/Close all</h2>
+<button onclick="$('.accordion.a').accordion($(this).text());">open all</button>
+<button onclick="$('.accordion.a').accordion($(this).text());">close all</button>
+
+<script src="../lib/jQuery/jquery-1.11.3.min.js"></script>
+<script src="../dist/js/fedlib.accordion.js"></script>
+<script>
+	$('.accordion.a').accordion({
+		selector: {
+			trigger: '.title a'
+		}
+	});
+</script>
+
+</body>
+</html>
