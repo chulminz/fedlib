@@ -104,8 +104,9 @@ $.fn.accordion = function(parameters) {
 
 			closeOthers: function(target) {
 				var $targetTitle = module.get.targetTitle.call(this, target);
+				var $targetParent = $targetTitle.parents(selector.accordion).eq(0);
 
-				$module.find(selector.title).not($targetTitle).each(function(){
+				$targetParent.find('> ' + selector.title).not($targetTitle).each(function(){
 					module.close($(this));
 				});
 			},
@@ -207,6 +208,7 @@ $.fn.accordion.settings = {
 	alone: true,
 
 	selector: {
+		accordion: '.accordion',
 		title: '.title',
 		trigger: '.title',
 		content: '.content',

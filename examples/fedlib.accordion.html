@@ -17,6 +17,8 @@
 		}
 		.accordion .content {
 			display: none;
+			padding: 1em;
+			border: 1px solid #ccc;
 		}
 		.accordion .title.active {
 			font-weight: bold;
@@ -56,6 +58,70 @@
 <button onclick="$('.accordion.a').accordion($(this).text());">open all</button>
 <button onclick="$('.accordion.a').accordion($(this).text());">close all</button>
 
+<h2>Nested Accordions</h2>
+<div class="accordion b">
+	<div class="title">
+		<a href="#">Level 1</a>
+	</div>
+	<div class="content">
+		Leven 1 Contents
+		<div class="accordion">
+			<div class="title"><a href="#">Level 1A</a></div>
+			<div class="content">
+				Level 1A Contents
+			</div>
+			<div class="title"><a href="#">Level 1B</a></div>
+			<div class="content">
+				Level 1B Contents
+			</div>
+			<div class="title"><a href="#">Level 1C</a></div>
+			<div class="content">
+				Level 1C Contents
+			</div>
+		</div>
+	</div>
+	<div class="title">
+		<a href="#">Level 2</a>
+	</div>
+	<div class="content">
+		Leven 2 Contents
+		<div class="accordion">
+			<div class="title"><a href="#">Level 2A</a></div>
+			<div class="content">
+				Level 2A Contents
+			</div>
+			<div class="title"><a href="#">Level 2B</a></div>
+			<div class="content">
+				Level 2B Contents
+			</div>
+			<div class="title"><a href="#">Level 2C</a></div>
+			<div class="content">
+				Level 2C Contents
+			</div>
+		</div>
+	</div>
+	<div class="title">
+		<a href="#">Level 3</a>
+	</div>
+	<div class="content">
+		Leven 3 Contents
+		<div class="accordion">
+			<div class="title"><a href="#">Level 3A</a></div>
+			<div class="content">
+				Level 3A Contents
+			</div>
+			<div class="title"><a href="#">Level 3B</a></div>
+			<div class="content">
+				Level 3B Contents
+			</div>
+			<div class="title"><a href="#">Level 3C</a></div>
+			<div class="content">
+				Level 3C Contents
+			</div>
+		</div>
+	</div>
+</div>
+
 <script src="../lib/jQuery/jquery-1.11.3.min.js"></script>
 <script src="../dist/js/fedlib.accordion.js"></script>
 <script>
@@ -64,6 +130,8 @@
 			trigger: '.title a'
 		}
 	});
+
+	$('.accordion.b').accordion();
 </script>
 
 </body>
