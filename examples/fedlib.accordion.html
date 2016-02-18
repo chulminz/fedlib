@@ -122,6 +122,22 @@
 	</div>
 </div>
 
+<h2>Ajax Accordion</h2>
+<div class="accordion c">
+	<div class="title" data-num="1" data-param="a">
+		<a href="#">Level 1</a>
+	</div>
+	<div class="content"></div>
+	<div class="title" data-num="2" data-param="b">
+		<a href="#">Level 2</a>
+	</div>
+	<div class="content"></div>
+	<div class="title" data-num="3" data-param="c">
+		<a href="#">Level 3</a>
+	</div>
+	<div class="content"></div>
+</div>
+
 <script src="../lib/jQuery/jquery-1.11.3.min.js"></script>
 <script src="../dist/js/fedlib.accordion.js"></script>
 <script>
@@ -132,6 +148,16 @@
 	});
 
 	$('.accordion.b').accordion();
+
+	$('.accordion.c').accordion({
+		selector: {
+			trigger: '.title a'
+		},
+		ajaxSettings: {
+			active: true,
+			urlTemplate: './ajax/test-{num}.html?id={param}'
+		}
+	});
 </script>
 
 </body>

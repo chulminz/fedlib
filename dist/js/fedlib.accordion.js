@@ -35,6 +35,7 @@ $.fn.accordion = function(parameters) {
 
 		var selector = settings.selector;
 		var className = settings.className;
+		var ajaxSettings = settings.ajaxSettings;
 
 		var $module = $(this);
 		var $title = $module.find(selector.title);
@@ -92,6 +93,10 @@ $.fn.accordion = function(parameters) {
 				$targetContent.addClass(className.active);
 
 				if (settings.alone) module.closeOthers(target);
+
+				if (ajaxSettings.active) {
+					module.ajax.content($targetTitle, $targetContent);
+				}
 			},
 
 			close: function(target) {
@@ -114,6 +119,12 @@ $.fn.accordion = function(parameters) {
 			openAll: function() {
 				$title.addClass(className.active);
 				$content.addClass(className.active);
+
+				if (ajaxSettings.active) {
+					$title.each(function(idx){
+						module.ajax.content($title.eq(idx), $content.eq(idx));
+					});
+				}
 			},
 
 			closeAll: function() {
@@ -134,6 +145,37 @@ $.fn.accordion = function(parameters) {
 					}
 
 					return $returnTitle;
+				}
+			},
+
+			ajax: {
+				content: function($targetTitle, $targetContent) {
+					var url = ajaxSettings.urlTemplate;
+					var keys = url.match(/\{\$*[A-z0-9]+\}/g);
+
+					if (!$targetContent.data('isLoaded') || ajaxSettings.refresh) {
+						$.each(keys, function(index, key) {
+							 url = url.replace(key, $targetTitle.data(key.substr(1, key.length - 2)));
+						});
+
+						$targetContent.addClass(className.loading);
+						$.ajax({
+							url: url,
+							cache: ajaxSettings.cache,
+							success: function(response) {
+								$targetContent.data('isLoaded', true)
+										.removeClass(className.loading)
+										.html(response);
+								settings.onAjaxSuccess.call(this, $targetTitle, $targetContent);
+							},
+							error: function() {
+								settings.onAjaxError.call(this, $targetTitle, $targetContent);
+							},
+							complete: function() {
+								settings.onAjaxComplete.call(this, $targetTitle, $targetContent);
+							}
+						});
+					}
 				}
 			},
 
@@ -207,6 +249,17 @@ $.fn.accordion.settings = {
 
 	alone: true,
 
+	onAjaxSuccess: function($title, $content) {},
+	onAjaxError: function($title, $content) {},
+	onAjaxComplete: function($title, $content) {},
+
+	ajaxSettings: {
+		active: false,
+		urlTemplate: '{url}',
+		cache: true,
+		refresh: false
+	},
+
 	selector: {
 		accordion: '.accordion',
 		title: '.title',
@@ -214,7 +267,8 @@ $.fn.accordion.settings = {
 		content: '.content',
 	},
 	className: {
-		active: 'active'
+		active: 'active',
+		loading: 'loading'
 	}
 }
 
