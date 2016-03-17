@@ -63,7 +63,7 @@ $.fn.tab = function(parameters) {
 
 				$tabs = $context.find(selector.tabs);
 
-				if ($module.index() == 0 && !module.has.siblingActive($module)) {
+				if ($module.index() == settings.defaultTabIndex && !module.has.siblingActive($module)) {
 					module.activate.all($module.data(dataName.tab));
 				}
 				module.bind.events();
@@ -255,6 +255,7 @@ $.fn.tab.settings = {
 	namespace: 'tab',
 
 	context: false,	
+	defaultTabIndex: 0,
 
 	onActive: function(tabPath) {},	// called on tab active
 	onAjaxSuccess: function(tabPath) {},

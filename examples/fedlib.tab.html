@@ -100,6 +100,18 @@
 	<div class="tab-content" data-tab="third"></div>
 </div>
 
+<h2>Random tab</h2>
+<div class="ex-tab-d">
+	<div class="tab-menu">
+		<a href="#" class="item" data-tab="first">First</a>
+		<a href="#" class="item" data-tab="second">Second</a>
+		<a href="#" class="item" data-tab="third">Third</a>
+	</div>
+	<div class="tab-content" data-tab="first">first</div>
+	<div class="tab-content" data-tab="second">second</div>
+	<div class="tab-content" data-tab="third">third</div>
+</div>
+
 <script src="../lib/jQuery/jquery-1.11.3.min.js"></script>
 <script src="../dist/js/fedlib.tab.js"></script>
 <script>
@@ -115,6 +127,10 @@
 			active: true,
 			urlTemplate: './ajax/test-{num}.html?id={param}'
 		}
+	});
+	$('.ex-tab-d .tab-menu .item').tab({
+		context: '.ex-tab-d',
+		defaultTabIndex: Math.floor(Math.random() * $('.ex-tab-d .tab-menu .item').length)
 	});
 </script>
 
