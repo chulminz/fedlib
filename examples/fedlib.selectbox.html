@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, target-densitydpi=medium-dpi">
+	<title>fedlib.selectbox.js</title>
+	<link rel="stylesheet" href="../lib/normalize.css/normalize.css">
+	<style>
+		body {
+			margin: 30px;
+		}
+
+.selectbox.a {width: 200px; height:50px;}
+
+.ui-selectbox {position: relative; width: 100%; height: 100%;}
+.ui-selectbox button {border: 0; background-color: rgba(0,0,0,.2);}
+.ui-selectbox button.select {position: relative; z-index: 2; width: 100%; height: 100%; font-size: 24px; color: #111;}
+.ui-selectbox button.option {width: 100%; height: 40px;}
+.ui-selectbox .options {display: none; position: absolute; z-index: 1; left: 0; right: 0; top: 100%; background-color: #fff; border: 1px solid #f1f1f1;}
+.ui-selectbox {}
+
+	</style>
+</head>
+<body>
+
+<h1>Select box</h1>
+
+<h2>Basic</h2>
+<div class="selectbox a">
+	<label for="selectbox-a">검색항목</label>
+	<select id="selectbox-a">
+		<option value="">제목+내용</option>
+		<option value="">제목</option>
+		<option value="">내용</option>
+	</select>
+
+	<!-- <div class="ui-selectbox">
+		<button class="select"><span class="selected-text">제목+내용</span></button>
+		<div class="options">
+			<button class="option">제목+내용</button>
+			<button class="option">제목</button>
+			<button class="option">내용</button>
+		</div>
+	</div> -->
+</div>
+
+<script src="../lib/jQuery/jquery-1.11.3.min.js"></script>
+<script src="../dist/js/fedlib.selectbox.js"></script>
+<script>
+	$('#selectbox-a').selectbox();
+</script>
+
+</body>
+</html>
